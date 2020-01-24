@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from "react";
+import { connect } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Header from "./components/Header";
+import Buttons from "./components/Buttons";
+import TopTenList from "./components/TopTenList";
+import AddEarthquake from "./components/AddEarthquake";
+import EarthquakeDetail from "./components/EarthquakeDetail";
+import RetrieveLatest from "./components/RetrieveLatest";
 
-function App() {
+const App = ({ selectedButton }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Header />
+      <Buttons />
+      {selectedButton === 0 && <TopTenList />}
+      {selectedButton === 1 && <AddEarthquake />}
+      {selectedButton === 2 && <EarthquakeDetail />}
+      {selectedButton === 3 && <RetrieveLatest />}
+    </Fragment>
   );
-}
+};
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    selectedButton: state.get("selectedButton")
+  };
+};
+
+export default connect(mapStateToProps, null)(App);
