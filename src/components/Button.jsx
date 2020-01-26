@@ -6,14 +6,25 @@ import { clickButton } from "../store/actionCreators";
 const StyledButton = styled.button`
   width: 205px;
   height: 45px;
+  line-height: 45px;
   background: #b1a8e3;
   border-radius: 3px;
-  font-size: 24px;
+  font-size: 20px;
   color: white;
   outline: none;
-  cursor: pointer;
+  border: none;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none !important;
   &.selected {
     background: #9453c2;
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+  @media (max-width: 1024px) {
+    font-size: 20px;
+    justify-self: center;
   }
 `;
 

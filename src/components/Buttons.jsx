@@ -12,6 +12,11 @@ const StyledButtons = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 1024px) {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-row-gap: 15px;
+  }
 `;
 
 const Buttons = ({ buttonList, selectedButton }) => {
