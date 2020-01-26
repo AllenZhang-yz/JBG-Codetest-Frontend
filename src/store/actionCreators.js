@@ -1,5 +1,12 @@
-import axios from "axios";
 import { fromJS } from "immutable";
+import {
+  fetchTopTenList,
+  submitEditedDataToBackend,
+  submitAddDataToBackend,
+  retrieveDetail,
+  retrieveData,
+  sendAllData
+} from "../utils/axios";
 import {
   CLICK_BUTTON,
   GET_TOP_TEN,
@@ -43,8 +50,7 @@ export const clickButton = idx => ({
 
 export const getTopTenList = () => {
   return dispatch => {
-    axios
-      .get("http://localhost:5000/api/earthquake/")
+    fetchTopTenList()
       .then(res => {
         dispatch(changeTopTenList(res.data));
       })
@@ -84,8 +90,7 @@ export const changeLong = data => ({
 
 export const submitEditedData = data => {
   return dispatch => {
-    axios
-      .put(`http://localhost:5000/api/earthquake/${data._id}`, data)
+    submitEditedDataToBackend(data)
       .then(res => {
         dispatch(toggleEditMode(false));
       })
@@ -130,8 +135,7 @@ export const addLong = data => ({
 
 export const submitAddData = data => {
   return dispatch => {
-    axios
-      .post("http://localhost:5000/api/earthquake/", data)
+    submitAddDataToBackend(data)
       .then(res => {
         console.log(res);
       })
@@ -147,8 +151,7 @@ export const handleEnteredId = _id => ({
 export const retrieveDetailFromId = _id => {
   return dispatch => {
     if (_id) {
-      axios
-        .get(`http://localhost:5000/api/earthquake/${_id}`)
+      retrieveDetail(_id)
         .then(res => {
           dispatch(setRetrievedDetail(res.data));
           dispatch(setRetrieveSuc(true));
@@ -164,10 +167,7 @@ export const retrieveDetailFromId = _id => {
 
 export const retrieveDataFromBackend = () => {
   return dispatch => {
-    axios
-      .get(
-        "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
-      )
+    retrieveData()
       .then(res => {
         const data = res.data.features.slice(0, 100);
         console.log(data);
@@ -179,8 +179,7 @@ export const retrieveDataFromBackend = () => {
 
 export const sendDataToDB = data => {
   return dispatch => {
-    axios
-      .post("http://localhost:5000/api/earthquake/all", data)
+    sendAllData(data)
       .then(res => {
         console.log(res);
       })
