@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import JBGLogo from "../static/JBG_pic.png";
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -15,12 +16,27 @@ const StyledHeader = styled.div`
   color: white;
   font-size: 34px;
   text-align: center;
+  @media (max-width: 1024px) {
+    font-size: 24px;
+  }
+`;
+
+const LogoImg = styled.img`
+  height: 60px;
+  width: auto;
+  margin-right: 30px;
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 const Header = () => {
   return (
     <HeaderWrapper>
-      <StyledHeader>Earthquake Information Web Portal</StyledHeader>
+      <StyledHeader>
+        <LogoImg src={JBGLogo} alt="logo" />
+        Earthquake Information Web Portal
+      </StyledHeader>
     </HeaderWrapper>
   );
 };

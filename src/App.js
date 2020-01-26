@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Login from "./components/Login";
 import Header from "./components/Header";
 import Buttons from "./components/Buttons";
 import TopTenList from "./components/TopTenList";
@@ -11,6 +12,7 @@ import RetrieveLatest from "./components/RetrieveLatest";
 const App = ({ selectedButton }) => {
   return (
     <Fragment>
+      <Login />
       <Header />
       <Buttons />
       {selectedButton === 0 && <TopTenList />}
