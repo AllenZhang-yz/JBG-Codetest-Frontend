@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import JBGLogo from "../static/JBG_pic.png";
+import { logout } from "../store/actionCreators";
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -30,15 +32,35 @@ const LogoImg = styled.img`
   }
 `;
 
-const Header = memo(() => {
+const LogoutButton = styled.span`
+  width: 70px;
+  height: 40px;
+  font-size: 18px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: #3474eb;
+  margin-left: 40px;
+  cursor: pointer;
+`;
+
+const Header = memo(({ logoutHandler }) => {
   return (
     <HeaderWrapper>
       <StyledHeader>
         <LogoImg src={JBGLogo} alt="logo" />
-        Earthquake Information Web Portal
+        <span>Earthquake Information Web Portal</span>
+        <LogoutButton onClick={logoutHandler}>Logout</LogoutButton>
       </StyledHeader>
     </HeaderWrapper>
   );
 });
 
-export default Header;
+const mapDispatchToProps = dispatch => {
+  return {
+    logoutHandler() {
+      dispatch(logout());
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Header);

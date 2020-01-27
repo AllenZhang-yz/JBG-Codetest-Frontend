@@ -69,7 +69,7 @@ const AddEarthquake = memo(
               <Form.Label>Long</Form.Label>
               <Form.Control type="text" onChange={addLongHandler} />
             </Form.Group>
-            <Button type="submit" onClick={() => addSubmit(addData)}>
+            <Button type="submit" onClick={e => addSubmit(addData, e)}>
               Submit form
             </Button>
           </Form>
@@ -108,7 +108,8 @@ const mapDispatchToProps = dispatch => {
     addLongHandler(e) {
       dispatch(addLong(e.target.value));
     },
-    addSubmit(data) {
+    addSubmit(data, e) {
+      e.preventDefault();
       dispatch(submitAddData(data));
     }
   };

@@ -1,35 +1,24 @@
-import React, { Fragment } from "react";
+import React, { Fragment, memo } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Header from "./components/Header";
-import Buttons from "./components/Buttons";
-import TopTenList from "./components/TopTenList";
-import AddEarthquake from "./components/AddEarthquake";
-import EarthquakeDetail from "./components/EarthquakeDetail";
-import RetrieveLatest from "./components/RetrieveLatest";
+import Login from "./components/Login";
+import LoggedIn from "./components/LoggedIn";
 
-const App = ({ selectedButton }) => {
+const App = memo(({ loginSuc }) => {
   return (
     <Fragment>
-      <Header />
-      <Buttons />
-      {selectedButton === 0 && <TopTenList />}
-      {selectedButton === 1 && <AddEarthquake />}
-      {selectedButton === 2 && <EarthquakeDetail />}
-      {selectedButton === 3 && <RetrieveLatest />}
+      {loginSuc ? <Redirect to="/login" /> : <Redirect to="/" />}
+      <Route path="/" exact component={Login} />
+      <Route path="/login" exact component={LoggedIn} />
     </Fragment>
   );
-};
+});
 
 const mapStateToProps = state => {
   return {
-    selectedButton: state.get("selectedButton")
+    loginSuc: state.get("loginSuc")
   };
-};
-
-App.propTypes = {
-  selectedButton: PropTypes.number.isRequired
 };
 
 export default connect(mapStateToProps, null)(App);

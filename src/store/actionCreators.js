@@ -5,7 +5,8 @@ import {
   submitAddDataToBackend,
   retrieveDetail,
   retrieveData,
-  sendAllData
+  sendAllData,
+  sendLoginInfo
 } from "../utils/axios";
 import {
   CLICK_BUTTON,
@@ -25,7 +26,10 @@ import {
   ADD_LONG,
   HANDLE_ENTERED_ID,
   SET_RETRIEVED_DETAIL,
-  SET_RETRIEVE_SUC
+  SET_RETRIEVE_SUC,
+  HANDLE_USERNAME,
+  HANDLE_PASSWORD,
+  SET_LOGIN_SUC
 } from "./actionTypes";
 
 const changeTopTenList = data => ({
@@ -40,6 +44,11 @@ const setRetrievedDetail = data => ({
 
 const setRetrieveSuc = data => ({
   type: SET_RETRIEVE_SUC,
+  data
+});
+
+const setLoginSuc = data => ({
+  type: SET_LOGIN_SUC,
   data
 });
 
@@ -93,6 +102,7 @@ export const submitEditedData = data => {
     submitEditedDataToBackend(data)
       .then(res => {
         dispatch(toggleEditMode(false));
+        dispatch(getTopTenList());
       })
       .catch(err => console.log(err));
   };
@@ -138,6 +148,7 @@ export const submitAddData = data => {
     submitAddDataToBackend(data)
       .then(res => {
         console.log(res);
+        dispatch(clickButton(0));
       })
       .catch(err => console.log(err));
   };
@@ -182,7 +193,44 @@ export const sendDataToDB = data => {
     sendAllData(data)
       .then(res => {
         console.log(res);
+        dispatch(clickButton(0));
       })
       .catch(err => console.log(err));
+  };
+};
+
+export const usernameHandler = data => ({
+  type: HANDLE_USERNAME,
+  data: fromJS(data)
+});
+
+export const passwordHandler = data => ({
+  type: HANDLE_PASSWORD,
+  data: fromJS(data)
+});
+
+export const sendLoginData = (username, password) => {
+  const authData = { username, password };
+  return dispatch => {
+    sendLoginInfo(authData)
+      .then(res => {
+        console.log(res);
+        localStorage.setItem("jwt_token", res.data.token);
+        dispatch(setLoginSuc(true));
+        dispatch(usernameHandler(""));
+        dispatch(passwordHandler(""));
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch(setLoginSuc(false));
+      });
+  };
+};
+
+export const logout = () => {
+  return dispatch => {
+    localStorage.removeItem("jwt_token");
+    dispatch(setLoginSuc(false));
+    dispatch(clickButton(0));
   };
 };

@@ -16,7 +16,10 @@ import {
   ADD_LONG,
   HANDLE_ENTERED_ID,
   SET_RETRIEVED_DETAIL,
-  SET_RETRIEVE_SUC
+  SET_RETRIEVE_SUC,
+  HANDLE_PASSWORD,
+  HANDLE_USERNAME,
+  SET_LOGIN_SUC
 } from "./actionTypes";
 import { fromJS } from "immutable";
 
@@ -45,7 +48,10 @@ export const defaultState = fromJS({
   },
   enteredId: "",
   retrievedDetail: null,
-  retrieveSuc: ""
+  retrieveSuc: "",
+  username: "",
+  password: "",
+  loginSuc: false
 });
 
 export default (state = defaultState, action) => {
@@ -98,6 +104,12 @@ export default (state = defaultState, action) => {
       return state.set("retrievedDetail", action.data);
     case SET_RETRIEVE_SUC:
       return state.set("retrieveSuc", action.data);
+    case HANDLE_USERNAME:
+      return state.set("username", action.data);
+    case HANDLE_PASSWORD:
+      return state.set("password", action.data);
+    case SET_LOGIN_SUC:
+      return state.set("loginSuc", action.data);
     default:
       return state;
   }

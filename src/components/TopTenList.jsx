@@ -151,7 +151,7 @@ const TopTenList = memo(
                   onChange={changeLongHandler}
                 />
               </Form.Group>
-              <Button type="submit" onClick={() => editSubmit(editData)}>
+              <Button type="submit" onClick={e => editSubmit(editData, e)}>
                 Submit form
               </Button>
             </Form>
@@ -191,7 +191,8 @@ const mapDispatchToProps = dispatch => {
     changeLongHandler(e) {
       dispatch(changeLong(e.target.value));
     },
-    editSubmit(data) {
+    editSubmit(data, e) {
+      e.preventDefault();
       dispatch(submitEditedData(data));
     }
   };
