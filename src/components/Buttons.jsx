@@ -1,6 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import Button from "./Button";
 
 const ButtonsWrapper = styled.div`
@@ -19,7 +20,7 @@ const StyledButtons = styled.div`
   }
 `;
 
-const Buttons = ({ buttonList, selectedButton }) => {
+const Buttons = memo(({ buttonList, selectedButton }) => {
   return (
     <ButtonsWrapper>
       <StyledButtons>
@@ -31,13 +32,18 @@ const Buttons = ({ buttonList, selectedButton }) => {
       </StyledButtons>
     </ButtonsWrapper>
   );
-};
+});
 
 const mapStateToProps = state => {
   return {
     buttonList: state.get("buttonList"),
     selectedButton: state.get("selectedButton")
   };
+};
+
+Buttons.propTypes = {
+  buttonList: PropTypes.object.isRequired,
+  selectedButton: PropTypes.number.isRequired
 };
 
 export default connect(mapStateToProps, null)(Buttons);

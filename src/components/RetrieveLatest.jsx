@@ -1,5 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { retrieveDataFromBackend } from "../store/actionCreators";
 
@@ -32,7 +33,7 @@ const RetrieveButton = styled.div`
   }
 `;
 
-const RetrieveLatest = ({ retrieveAllData }) => {
+const RetrieveLatest = memo(({ retrieveAllData }) => {
   return (
     <RetrieveLatestWrapper>
       <StyledRetrieveLatest>
@@ -42,7 +43,7 @@ const RetrieveLatest = ({ retrieveAllData }) => {
       </StyledRetrieveLatest>
     </RetrieveLatestWrapper>
   );
-};
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -50,6 +51,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(retrieveDataFromBackend());
     }
   };
+};
+
+RetrieveLatest.propTypes = {
+  retrieveAllData: PropTypes.func.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(RetrieveLatest);

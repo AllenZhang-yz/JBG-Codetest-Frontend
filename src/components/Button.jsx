@@ -1,6 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { clickButton } from "../store/actionCreators";
 
 const StyledButton = styled.button`
@@ -28,7 +29,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ children, handleSelectedButton, index, selected }) => {
+const Button = memo(({ children, handleSelectedButton, index, selected }) => {
   return (
     <StyledButton
       onClick={() => handleSelectedButton(index)}
@@ -37,7 +38,7 @@ const Button = ({ children, handleSelectedButton, index, selected }) => {
       {children}
     </StyledButton>
   );
-};
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -45,6 +46,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(clickButton(idx));
     }
   };
+};
+
+Button.propTypes = {
+  children: PropTypes.string.isRequired,
+  handleSelectedButton: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  selected: PropTypes.bool.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(Button);

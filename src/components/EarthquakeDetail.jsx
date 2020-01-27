@@ -1,7 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 import { handleEnteredId, retrieveDetailFromId } from "../store/actionCreators";
 
 const EarthquakeDetailWrapper = styled.div`
@@ -60,67 +61,73 @@ const FailInfo = styled.div`
   color: red;
 `;
 
-const EarthquakeDetail = ({
-  enteredId,
-  enteredIdHandler,
-  retrieveDetail,
-  retrievedDetail,
-  retrieveSuc
-}) => {
-  return (
-    <EarthquakeDetailWrapper>
-      <StyledEarthquakeDetail>
-        Please enter earthquake ID:{" "}
-        <InputDiag type="text" onChange={enteredIdHandler} value={enteredId} />
-        <DetailFetch onClick={() => retrieveDetail(enteredId)}>
-          Retrieve
-        </DetailFetch>
-        {retrievedDetail && retrieveSuc && (
-          <Details>
-            <Detail>
-              <DetailsTitle>Database ID: </DetailsTitle>
-              {retrievedDetail._id}
-            </Detail>
-            <Detail>
-              <DetailsTitle>ID: </DetailsTitle>
-              {retrievedDetail.id}
-            </Detail>
-            <Detail>
-              <DetailsTitle>Magnitude: </DetailsTitle>
-              {retrievedDetail.properties.mag}
-            </Detail>
-            <Detail>
-              <DetailsTitle>Place: </DetailsTitle>
-              {retrievedDetail.properties.place}
-            </Detail>
-            <Detail>
-              <DetailsTitle>Time: </DetailsTitle>
+const EarthquakeDetail = memo(
+  ({
+    enteredId,
+    enteredIdHandler,
+    retrieveDetail,
+    retrievedDetail,
+    retrieveSuc
+  }) => {
+    return (
+      <EarthquakeDetailWrapper>
+        <StyledEarthquakeDetail>
+          Please enter earthquake ID:{" "}
+          <InputDiag
+            type="text"
+            onChange={enteredIdHandler}
+            value={enteredId}
+          />
+          <DetailFetch onClick={() => retrieveDetail(enteredId)}>
+            Retrieve
+          </DetailFetch>
+          {retrievedDetail && retrieveSuc && (
+            <Details>
+              <Detail>
+                <DetailsTitle>Database ID: </DetailsTitle>
+                {retrievedDetail._id}
+              </Detail>
+              <Detail>
+                <DetailsTitle>ID: </DetailsTitle>
+                {retrievedDetail.id}
+              </Detail>
+              <Detail>
+                <DetailsTitle>Magnitude: </DetailsTitle>
+                {retrievedDetail.properties.mag}
+              </Detail>
+              <Detail>
+                <DetailsTitle>Place: </DetailsTitle>
+                {retrievedDetail.properties.place}
+              </Detail>
+              <Detail>
+                <DetailsTitle>Time: </DetailsTitle>
 
-              {dayjs(retrievedDetail.properties.time).format(
-                "YYYY-MM-DD HH:mm:ss A"
-              )}
-            </Detail>
-            <Detail>
-              <DetailsTitle>More Info: </DetailsTitle>
-              {retrievedDetail.properties.title}
-            </Detail>
-            <Detail>
-              <DetailsTitle>Latitude: </DetailsTitle>
-              {retrievedDetail.geometry.coordinates[0]}
-            </Detail>
-            <Detail>
-              <DetailsTitle>Latitude: </DetailsTitle>
-              {retrievedDetail.geometry.coordinates[1]}
-            </Detail>
-          </Details>
-        )}
-        {retrieveSuc === false && (
-          <FailInfo>The Earthquake information does not exist!</FailInfo>
-        )}
-      </StyledEarthquakeDetail>
-    </EarthquakeDetailWrapper>
-  );
-};
+                {dayjs(retrievedDetail.properties.time).format(
+                  "YYYY-MM-DD HH:mm:ss A"
+                )}
+              </Detail>
+              <Detail>
+                <DetailsTitle>More Info: </DetailsTitle>
+                {retrievedDetail.properties.title}
+              </Detail>
+              <Detail>
+                <DetailsTitle>Latitude: </DetailsTitle>
+                {retrievedDetail.geometry.coordinates[0]}
+              </Detail>
+              <Detail>
+                <DetailsTitle>Latitude: </DetailsTitle>
+                {retrievedDetail.geometry.coordinates[1]}
+              </Detail>
+            </Details>
+          )}
+          {retrieveSuc === false && (
+            <FailInfo>The Earthquake information does not exist!</FailInfo>
+          )}
+        </StyledEarthquakeDetail>
+      </EarthquakeDetailWrapper>
+    );
+  }
+);
 
 const mapStateToProps = state => {
   return {
@@ -139,6 +146,15 @@ const mapDispatchToProps = dispatch => {
       dispatch(retrieveDetailFromId(enteredId));
     }
   };
+};
+
+EarthquakeDetail.propTypes = {
+  enteredId: PropTypes.string,
+  enteredIdHandler: PropTypes.func.isRequired,
+  retrieveDetail: PropTypes.func.isRequired,
+  retrievedDetail: PropTypes.object,
+  retrieveSuc: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+    .isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EarthquakeDetail);

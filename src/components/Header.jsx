@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import JBGLogo from "../static/JBG_pic.png";
 
@@ -30,7 +30,7 @@ const LogoImg = styled.img`
   }
 `;
 
-const Header = () => {
+const Header = memo(() => {
   return (
     <HeaderWrapper>
       <StyledHeader>
@@ -39,6 +39,6 @@ const Header = () => {
       </StyledHeader>
     </HeaderWrapper>
   );
-};
+});
 
 export default Header;

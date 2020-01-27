@@ -1,7 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
   addId,
@@ -24,85 +25,59 @@ const StyledAddEarthquake = styled.div`
   margin: 0 auto;
 `;
 
-const AddEarthquake = ({
-  addData,
-  addIdHandler,
-  addMagHandler,
-  addPlaceHandler,
-  addTimeHandler,
-  addMoreInfoHandler,
-  addLatHandler,
-  addLongHandler,
-  addSubmit
-}) => {
-  return (
-    <AddEarthquakeWrapper>
-      <StyledAddEarthquake>
-        <Form>
-          <Form.Group controlId="ID">
-            <Form.Label>ID</Form.Label>
-            <Form.Control
-              type="text"
-              // value={addData.id}
-              onChange={addIdHandler}
-            />
-          </Form.Group>
-          <Form.Group controlId="Magnitude">
-            <Form.Label>Magnitude</Form.Label>
-            <Form.Control
-              type="text"
-              // value={addData.properties.mag}
-              onChange={addMagHandler}
-            />
-          </Form.Group>
-          <Form.Group controlId="Place">
-            <Form.Label>Place</Form.Label>
-            <Form.Control
-              type="text"
-              // value={addData.properties.place}
-              onChange={addPlaceHandler}
-            />
-          </Form.Group>
-          <Form.Group controlId="Time">
-            <Form.Label>Time</Form.Label>
-            <Form.Control
-              type="text"
-              // value={addData.properties.time}
-              onChange={addTimeHandler}
-            />
-          </Form.Group>
-          <Form.Group controlId="MoreInfo">
-            <Form.Label>MoreInfo</Form.Label>
-            <Form.Control
-              type="text"
-              // value={addData.properties.title}
-              onChange={addMoreInfoHandler}
-            />
-          </Form.Group>
-          <Form.Group controlId="Lat">
-            <Form.Label>Lat</Form.Label>
-            <Form.Control
-              type="text"
-              // value={addData.geometry.coordinates[0]}
-              onChange={addLatHandler}
-            />
-          </Form.Group>
-          <Form.Group controlId="Long">
-            <Form.Label>Long</Form.Label>
-            <Form.Control
-              type="text"
-              // value={addData.geometry.coordinates[1]}
-              onChange={addLongHandler}
-            />
-          </Form.Group>
-          <Button type="submit" onClick={() => addSubmit(addData)}>
-            Submit form
-          </Button>
-        </Form>
-      </StyledAddEarthquake>
-    </AddEarthquakeWrapper>
-  );
-};
+const AddEarthquake = memo(
+  ({
+    addData,
+    addIdHandler,
+    addMagHandler,
+    addPlaceHandler,
+    addTimeHandler,
+    addMoreInfoHandler,
+    addLatHandler,
+    addLongHandler,
+    addSubmit
+  }) => {
+    return (
+      <AddEarthquakeWrapper>
+        <StyledAddEarthquake>
+          <Form>
+            <Form.Group controlId="ID">
+              <Form.Label>ID</Form.Label>
+              <Form.Control type="text" onChange={addIdHandler} />
+            </Form.Group>
+            <Form.Group controlId="Magnitude">
+              <Form.Label>Magnitude</Form.Label>
+              <Form.Control type="text" onChange={addMagHandler} />
+            </Form.Group>
+            <Form.Group controlId="Place">
+              <Form.Label>Place</Form.Label>
+              <Form.Control type="text" onChange={addPlaceHandler} />
+            </Form.Group>
+            <Form.Group controlId="Time">
+              <Form.Label>Time</Form.Label>
+              <Form.Control type="text" onChange={addTimeHandler} />
+            </Form.Group>
+            <Form.Group controlId="MoreInfo">
+              <Form.Label>MoreInfo</Form.Label>
+              <Form.Control type="text" onChange={addMoreInfoHandler} />
+            </Form.Group>
+            <Form.Group controlId="Lat">
+              <Form.Label>Lat</Form.Label>
+              <Form.Control type="text" onChange={addLatHandler} />
+            </Form.Group>
+            <Form.Group controlId="Long">
+              <Form.Label>Long</Form.Label>
+              <Form.Control type="text" onChange={addLongHandler} />
+            </Form.Group>
+            <Button type="submit" onClick={() => addSubmit(addData)}>
+              Submit form
+            </Button>
+          </Form>
+        </StyledAddEarthquake>
+      </AddEarthquakeWrapper>
+    );
+  }
+);
 
 const mapStateToProps = state => {
   return {
@@ -137,6 +112,18 @@ const mapDispatchToProps = dispatch => {
       dispatch(submitAddData(data));
     }
   };
+};
+
+AddEarthquake.propTypes = {
+  addData: PropTypes.object.isRequired,
+  addIdHandler: PropTypes.func.isRequired,
+  addMagHandler: PropTypes.func.isRequired,
+  addPlaceHandler: PropTypes.func.isRequired,
+  addTimeHandler: PropTypes.func.isRequired,
+  addMoreInfoHandler: PropTypes.func.isRequired,
+  addLatHandler: PropTypes.func.isRequired,
+  addLongHandler: PropTypes.func.isRequired,
+  addSubmit: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddEarthquake);
